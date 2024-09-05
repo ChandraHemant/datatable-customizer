@@ -1,0 +1,22 @@
+{
+  "name": "datatable-customizer",
+  "version": "1.0.0",
+  "description": "A custom datatable initializer with additional features for filtering, exporting, and more.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "datatable",
+    "custom",
+    "filter",
+    "export",
+    "pagination"
+  ],
+  "author": "Hemant Kumar Chandra <hemantchandra242@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "jquery": "^3.6.0",
+    "datatables.net": "^1.11.5"
+  }
+}
