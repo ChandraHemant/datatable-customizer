@@ -1,6 +1,6 @@
 {
   "name": "datatable-customizer",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A custom datatable initializer with additional features for filtering, exporting, and more.",
   "main": "index.js",
   "scripts": {

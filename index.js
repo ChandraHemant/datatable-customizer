@@ -273,27 +273,38 @@ function applyCustomShowEntries(table, showEntriesSelector) {
  * @param {string} paginationSelector - Selector for the pagination container.
  */
 function applyCustomPagination(table, paginationSelector) {
-    var pageInfo = table.page.info(); // Get table pagination info
-    var paginationHtml = ''; // Initialize HTML for pagination controls
+    var pageInfo = table.page.info();
+    var paginationHtml = '';
 
-    // Add "Previous" button
-    paginationHtml += `<li class="paginate_button page-item previous ${pageInfo.page === 0 ? 'disabled' : ''}" data-page="${pageInfo.page - 1}">
-        <a href="#" aria-controls="employee-table-dynamic" tabindex="0" class="page-link">Previous</a>
-    </li>`;
+    // Previous button
+    paginationHtml += `<li class="paginate_button page-item previous ${pageInfo.page === 0 ? 'disabled' : ''}" data-page="${pageInfo.page - 1}"><a href="#" aria-controls="employee-table-dynamic" tabindex="0" class="page-link">Previous</a></li>`;
 
-    // Add page number buttons
-    for (var i = 0; i < pageInfo.pages; i++) {
-        paginationHtml += `<li class="paginate_button page-item ${pageInfo.page === i ? 'active' : ''}" data-page="${i}">
-            <a href="#" aria-controls="employee-table-dynamic" tabindex="0" class="page-link">${i + 1}</a>
-        </li>`;
+    // Page buttons with ellipsis logic
+    if (pageInfo.pages <= 8) {
+        // If 8 or fewer pages, show all page numbers
+        for (var i = 0; i < pageInfo.pages; i++) {
+            paginationHtml += `<li class="paginate_button page-item ${pageInfo.page === i ? 'active' : ''}" data-page="${i}"><a href="#" aria-controls="employee-table-dynamic" tabindex="0" class="page-link">${i + 1}</a></li>`;
+        }
+    } else {
+        // Show first 3 pages
+        for (var i = 0; i < 3; i++) {
+            paginationHtml += `<li class="paginate_button page-item ${pageInfo.page === i ? 'active' : ''}" data-page="${i}"><a href="#" aria-controls="employee-table-dynamic" tabindex="0" class="page-link">${i + 1}</a></li>`;
+        }
+
+        // Add ellipsis if current page is far from the start
+        if (pageInfo.page > 3 && pageInfo.page < pageInfo.pages - 4) {
+            paginationHtml += `<li class="paginate_button page-item disabled"><a href="#" class="page-link">...</a></li>`;
+        }
+
+        // Show last 3 pages
+        for (var i = pageInfo.pages - 3; i < pageInfo.pages; i++) {
+            paginationHtml += `<li class="paginate_button page-item ${pageInfo.page === i ? 'active' : ''}" data-page="${i}"><a href="#" aria-controls="employee-table-dynamic" tabindex="0" class="page-link">${i + 1}</a></li>`;
+        }
     }
 
-    // Add "Next" button
-    paginationHtml += `<li class="paginate_button page-item next ${pageInfo.page === pageInfo.pages - 1 ? 'disabled' : ''}" data-page="${pageInfo.page + 1}">
-        <a href="#" aria-controls="employee-table-dynamic" tabindex="0" class="page-link">Next</a>
-    </li>`;
+    // Next button
+    paginationHtml += `<li class="paginate_button page-item next ${pageInfo.page === pageInfo.pages - 1 ? 'disabled' : ''}" data-page="${pageInfo.page + 1}"><a href="#" aria-controls="employee-table-dynamic" tabindex="0" class="page-link">Next</a></li>`;
 
-    // Update the pagination container with the generated HTML
     $(paginationSelector).html(paginationHtml);
 }
 
