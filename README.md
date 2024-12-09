@@ -13,11 +13,10 @@ This package provides a customizable DataTable implementation with additional fe
 
 ## Installation
 
-1. **Clone the Repository:**
+1. **Install Root Dependency**
 
-    ```bash
-    git clone https://github.com/ChandraHemant/datatable-customizer.git
-    cd datatable-customizer
+    ```html
+    <script src="https://www.unpkg.com/datatable-customizer@1.0.1/index.js"></script>
     ```
 
 2. **Install Dependencies:**
@@ -34,9 +33,9 @@ This package provides a customizable DataTable implementation with additional fe
     <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
 
      <!-- SumoSelect CSS and JS -->
-    <link rel="stylesheet" href="https://github.com/ChandraHemant/datatable-customizer/blob/main/assets/sumoselect.css">
-    <script src="https://github.com/ChandraHemant/datatable-customizer/blob/main/assets/jquery.sumoselect.min.js"></script>
-    <script src="https://github.com/ChandraHemant/datatable-customizer/blob/main/assets/jquery.sumoselect.js"></script>
+    <link rel="stylesheet" href="https://www.unpkg.com/datatable-customizer@1.0.1/assets/sumoselect.css">
+    <script src="https://www.unpkg.com/datatable-customizer@1.0.1/assets/jquery.sumoselect.min.js"></script>
+    <script src="https://www.unpkg.com/datatable-customizer@1.0.1/assets/jquery.sumoselect.js"></script>
     ```
 
 3. **Include Your Script:**
@@ -44,7 +43,7 @@ This package provides a customizable DataTable implementation with additional fe
     Add your custom JavaScript file to your HTML:
 
     ```html
-    <script src="path/to/your/datatable-customizer.js"></script>
+    <script src="https://www.unpkg.com/datatable-customizer@1.0.1/index.js"></script>
     ```
 
 ## Usage
