@@ -275,38 +275,53 @@ function applyCustomShowEntries(table, showEntriesSelector) {
 function applyCustomPagination(table, paginationSelector) {
     var pageInfo = table.page.info();
     var paginationHtml = '';
+    var currentPage = pageInfo.page + 1; // Page is 0-indexed, so we add 1 for display
+    var totalPages = pageInfo.pages;
 
     // Previous button
-    paginationHtml += `<li class="paginate_button page-item previous ${pageInfo.page === 0 ? 'disabled' : ''}" data-page="${pageInfo.page - 1}"><a href="#" aria-controls="employee-table-dynamic" tabindex="0" class="page-link">Previous</a></li>`;
+    paginationHtml += `<li class="paginate_button page-item previous ${currentPage === 1 ? 'disabled' : ''}" data-page="${currentPage - 2}"><a href="#" aria-controls="employee-table-dynamic" tabindex="0" class="page-link">Previous</a></li>`;
 
     // Page buttons with ellipsis logic
-    if (pageInfo.pages <= 8) {
+    if (totalPages <= 8) {
         // If 8 or fewer pages, show all page numbers
-        for (var i = 0; i < pageInfo.pages; i++) {
-            paginationHtml += `<li class="paginate_button page-item ${pageInfo.page === i ? 'active' : ''}" data-page="${i}"><a href="#" aria-controls="employee-table-dynamic" tabindex="0" class="page-link">${i + 1}</a></li>`;
+        for (var i = 0; i < totalPages; i++) {
+            paginationHtml += `<li class="paginate_button page-item ${currentPage === (i + 1) ? 'active' : ''}" data-page="${i}"><a href="#" aria-controls="employee-table-dynamic" tabindex="0" class="page-link">${i + 1}</a></li>`;
         }
     } else {
-        // Show first 3 pages
+        // Show the first pages (always show first 3 pages)
         for (var i = 0; i < 3; i++) {
-            paginationHtml += `<li class="paginate_button page-item ${pageInfo.page === i ? 'active' : ''}" data-page="${i}"><a href="#" aria-controls="employee-table-dynamic" tabindex="0" class="page-link">${i + 1}</a></li>`;
+            paginationHtml += `<li class="paginate_button page-item ${currentPage === (i + 1) ? 'active' : ''}" data-page="${i}"><a href="#" aria-controls="employee-table-dynamic" tabindex="0" class="page-link">${i + 1}</a></li>`;
         }
 
-        // Add ellipsis if current page is far from the start
-        if (pageInfo.page > 3 && pageInfo.page < pageInfo.pages - 4) {
+        // Add ellipsis if needed
+        if (currentPage > 4 && currentPage < totalPages - 4) {
             paginationHtml += `<li class="paginate_button page-item disabled"><a href="#" class="page-link">...</a></li>`;
         }
 
-        // Show last 3 pages
-        for (var i = pageInfo.pages - 3; i < pageInfo.pages; i++) {
-            paginationHtml += `<li class="paginate_button page-item ${pageInfo.page === i ? 'active' : ''}" data-page="${i}"><a href="#" aria-controls="employee-table-dynamic" tabindex="0" class="page-link">${i + 1}</a></li>`;
+        // Show pages around the current page (current page +/- 2)
+        for (var i = currentPage - 2; i <= currentPage + 2; i++) {
+            if (i > 3 && i < totalPages - 2) {  // Only show if within range
+                paginationHtml += `<li class="paginate_button page-item ${currentPage === i ? 'active' : ''}" data-page="${i - 1}"><a href="#" aria-controls="employee-table-dynamic" tabindex="0" class="page-link">${i}</a></li>`;
+            }
+        }
+
+        // Add ellipsis if needed
+        if (currentPage < totalPages - 3) {
+            paginationHtml += `<li class="paginate_button page-item disabled"><a href="#" class="page-link">...</a></li>`;
+        }
+
+        // Show the last pages (always show last 3 pages)
+        for (var i = totalPages - 3; i < totalPages; i++) {
+            paginationHtml += `<li class="paginate_button page-item ${currentPage === (i + 1) ? 'active' : ''}" data-page="${i}"><a href="#" aria-controls="employee-table-dynamic" tabindex="0" class="page-link">${i + 1}</a></li>`;
         }
     }
 
     // Next button
-    paginationHtml += `<li class="paginate_button page-item next ${pageInfo.page === pageInfo.pages - 1 ? 'disabled' : ''}" data-page="${pageInfo.page + 1}"><a href="#" aria-controls="employee-table-dynamic" tabindex="0" class="page-link">Next</a></li>`;
+    paginationHtml += `<li class="paginate_button page-item next ${currentPage === totalPages ? 'disabled' : ''}" data-page="${currentPage}"><a href="#" aria-controls="employee-table-dynamic" tabindex="0" class="page-link">Next</a></li>`;
 
     $(paginationSelector).html(paginationHtml);
 }
+
 
 /**
  * Applies custom date filtering functionality to the DataTable.
